@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import Veterinaria.DatosS;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -25,6 +26,7 @@ public class VDatoS extends JFrame implements ActionListener {
 	private JTextField txtDiscapacidad;
 	private JButton btnNewButton;
 	private JTextArea txtS;
+	private JButton btnNewButton_1;
 
 	/**
 	 * Launch the application.
@@ -83,7 +85,7 @@ public class VDatoS extends JFrame implements ActionListener {
 		
 		btnNewButton = new JButton("Procesar");
 		btnNewButton.addActionListener(this);
-		btnNewButton.setBounds(311, 44, 89, 23);
+		btnNewButton.setBounds(309, 11, 89, 23);
 		contentPane.add(btnNewButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -92,19 +94,31 @@ public class VDatoS extends JFrame implements ActionListener {
 		
 		txtS = new JTextArea();
 		scrollPane.setViewportView(txtS);
+		
+		btnNewButton_1 = new JButton("Limpiar");
+		btnNewButton_1.addActionListener(this);
+		btnNewButton_1.setBounds(309, 61, 89, 23);
+		contentPane.add(btnNewButton_1);
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnNewButton_1) {
+			do_btnNewButton_1_actionPerformed(e);
+		}
 		if (e.getSource() == btnNewButton) {
 			do_btnNewButton_actionPerformed(e);
 		}
 	}
 	protected void do_btnNewButton_actionPerformed(ActionEvent e) {
+		try {
 		int numEnfermedades = Integer.parseInt(txtEnfermedades.getText());
 		int numVacunas = Integer.parseInt(txtVacunas.getText());
 		String discapacidad = txtDiscapacidad.getText();
 		DatosS ds = new DatosS(numVacunas, numEnfermedades, discapacidad);
 		txtS.setText("");
 		Listado(ds);
+		}catch(NumberFormatException ex) {
+			JOptionPane.showMessageDialog(null, "Error... Ingrese el valor correspondiente de cada cuadro.");
+		}
 	}
 	public void Imprimir(String s) {
 		txtS.append(s+"\n");
@@ -115,4 +129,10 @@ public class VDatoS extends JFrame implements ActionListener {
 		Imprimir("Discapacidad: "+d.getDiscapacidad());
 	}
 	
+	protected void do_btnNewButton_1_actionPerformed(ActionEvent e) {
+		txtVacunas.setText("");
+		txtEnfermedades.setText("");
+		txtDiscapacidad.setText("");
+		txtS.setText("");
+	}
 	}
